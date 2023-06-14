@@ -47,8 +47,9 @@ class ImageGallery extends Component {
     }
   }
   render() {
-    const { value, error, status } = this.state;
-    const { searchValue } = this.props;
+    const { status } = this.state;
+    //{ value, error, status }
+    // const { searchValue } = this.props;
     if (status === 'idle') {
       return <div>Try to find something!</div>;
     }
