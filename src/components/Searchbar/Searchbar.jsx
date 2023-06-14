@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { ImSearch } from 'react-icons/im';
 import { toast } from 'react-toastify';
 
-// const styles = { form: { marginBottom: 20 } };
-
 class Searchbar extends Component {
   state = {
     value: '',
