@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 class ImageGallery extends Component {
   state = {
-    value: null,
+    // value: null,
     images: [],
     error: null,
     status: 'idle',
@@ -14,44 +14,51 @@ class ImageGallery extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { page } = this.state;
-    const prevValue = prevProps.searchValue;
-    const nextValue = this.props.searchValue;
-    if (prevValue !== nextValue) {
+    const prevName = prevProps.imageName;
+    const nextName = this.props.imageName;
+    // console.log('prevName:', prevName)
+    // console.log('nextName:', nextName)
+    if (prevName !== nextName || prevState.page !== page) {
       this.setState({
         images: [],
         page: 1,
         status: 'pending',
       });
-      // galleryAPI
-      //   .fetchImages(nextValue)
-      //   .then(value => this.setState({ value, status: 'resolved' }))
-      //   .catch(error => this.setState({ error, status: 'rejected' }));
+      // const {total, totalHits, hits} = response.data
+      galleryAPI
+        .fetchImages(nextName)
+        .then(images => this.setState({
+          images:
+          page === 1 ? images.data.hits : [...prevState.images, ...images.data.hits], status: 'resolved'
+        }))
+        .catch(error => this.setState({ error, status: 'rejected' }));
+      
 
-      if (prevValue !== nextValue || prevState.page !== page) {
-        galleryAPI
-          .fetchImages(nextValue, page)
-          .then(images => {
-            this.setState({
-              images:
-                page === 1
-                  ? images.hits
-                  : [...prevState.images, ...images.hits],
-              totalPages: Math.floor(images.totalHits / 12),
-              status: 'resolved',
-            });
-          })
-          .catch(error => {
-            this.setState({ error, status: 'rejected' });
-          });
-      }
+  //     if (prevName !== nextName || prevState.page !== page) {
+  //       galleryAPI
+  //         .fetchImages(nextName, page)
+  //         .then(images => {
+  //           this.setState({
+  //             images:
+  //               page === 1
+  //                 ? images.hits
+  //                 : [...prevState.images, ...images.hits],
+  //             totalPages: Math.floor(images.totalHits / 12),
+  //             status: 'resolved',
+  //           });
+  //         })
+  //         .catch(error => {
+  //           this.setState({ error, status: 'rejected' });
+  //         });
+  //     }
     }
   }
   render() {
     const { status } = this.state;
     //{ value, error, status }
-    // const { searchValue } = this.props;
+    // const { imageName } = this.props;
     if (status === 'idle') {
-      return <div>Try to find something!</div>;
+      return <div>Let's try find something!</div>;
     }
     // if (status === 'pending') {
     //   return <PokemonPendingView searchValue={searchValue} />;
@@ -66,7 +73,7 @@ class ImageGallery extends Component {
 }
 
 ImageGallery.propTypes = {
-  searchValue: PropTypes.string.isRequired,
+  imageName: PropTypes.string.isRequired,
 };
 
 export default ImageGallery;

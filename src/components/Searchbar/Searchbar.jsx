@@ -5,25 +5,25 @@ import { toast } from 'react-toastify';
 
 class Searchbar extends Component {
   state = {
-    value: '',
+    imageName: '',
   };
 
   handleChange = event => {
-    this.setState({ value: event.currentTarget.value.toLowerCase() });
+    this.setState({ imageName: event.currentTarget.value.toLowerCase() });
   };
 
   handleSubmit = event => {
     event.preventDefault();
 
-    if (this.state.value.trim() === '') {
+    if (this.state.imageName.trim() === '') {
       toast.error(
         'The search field is empty. Please enter your data for query.'
       );
       return;
     }
     // Передача даних з локального state форми у state App
-    this.props.onSubmit(this.state.value);
-    this.setState({ value: '' });
+    this.props.onSubmit(this.state.imageName);
+    this.setState({ imageName: '' });
   };
 
   render() {
@@ -41,7 +41,7 @@ class Searchbar extends Component {
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
-            value={this.state.value}
+            value={this.state.imageName}
             onChange={this.handleChange}
           />
         </form>

@@ -8,18 +8,18 @@ import ImageGallery from './ImageGallery';
 
 class App extends Component {
   state = {
-    searchValue: '',
+    imageName: '',
   };
 
-  handleFormSubmit = searchValue => {
-    this.setState({ searchValue });
+  handleFormSubmit = imageName => {
+    this.setState({ imageName });
   };
 
   render() {
     return (
       <Container>
         <Searchbar onSubmit={this.handleFormSubmit} />
-        <ImageGallery searchValue={this.state.searchValue} />
+        <ImageGallery imageName={this.state.imageName} />
         <ToastContainer autoClose={3000} />
       </Container>
     );
