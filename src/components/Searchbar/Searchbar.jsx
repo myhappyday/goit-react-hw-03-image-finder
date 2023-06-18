@@ -30,10 +30,6 @@ class Searchbar extends Component {
     return (
       <header className="searchbar">
         <form className="form" onSubmit={this.handleSubmit}>
-          <button type="submit" className="button">
-            {/* <span className="button-label">Search</span> */}
-            <ImSearch size={20} />
-          </button>
           <input
             className="input"
             type="text"
@@ -44,6 +40,10 @@ class Searchbar extends Component {
             value={this.state.imageName}
             onChange={this.handleChange}
           />
+          <button type="submit" className="button">
+            {/* <span className="button-label">Search</span> */}
+            <ImSearch size={20} />
+          </button>
         </form>
       </header>
     );
