@@ -11,7 +11,7 @@ const ImageGalleryItem = ({ imageURL, tags }) => {
 
 ImageGalleryItem.propTypes = {
   imageURL: PropTypes.string.isRequired,
-  tags: PropTypes.string.isRequired,
+  tags: PropTypes.string,
 };
 
 export default ImageGalleryItem;

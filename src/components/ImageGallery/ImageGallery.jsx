@@ -7,6 +7,7 @@ import ImageErrorView from '../ImageErrorView';
 import imageError from '../../images/error-oops.jpg';
 import imageErrorView from '../../images/error.jpg';
 import ImageGalleryItem from '../ImageGalleryItem';
+import Loader from '../Loader';
 
 class ImageGallery extends Component {
   state = {
@@ -78,8 +79,7 @@ class ImageGallery extends Component {
       return <p>Let's try to find something!</p>;
     }
     if (status === 'pending') {
-      return <p>Loading...</p>;
-      // return <ImagePendingView/>;
+      return <Loader />;
     }
 
     if (status === 'rejected') {
