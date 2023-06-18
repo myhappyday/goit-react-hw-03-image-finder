@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import galleryAPI from '../../services/galleryAPI';
 import ImageErrorView from '../ImageErrorView';
 import imageError from '../../images/error-oops.jpg';
-import imageErrorView from '../../images/error.png';
+import imageErrorView from '../../images/error.jpg';
+import ImageGalleryItem from '../ImageGalleryItem';
 
 class ImageGallery extends Component {
   state = {
@@ -104,19 +105,14 @@ class ImageGallery extends Component {
 
     if (status === 'resolved') {
       return (
-        <div>
-          <ul>
-            {images.map(image => {
-              return (
-                <li key={image.id}>
-                  <img src={image.webformatURL} alt={image.tags} />
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        <ul>
+          {images.map(({ id, webformatURL, tags }) => {
+            return (
+              <ImageGalleryItem key={id} imageURL={webformatURL} alt={tags} />
+            );
+          })}
+        </ul>
       );
-      // return <ImageDataView/>;
     }
   }
 }
