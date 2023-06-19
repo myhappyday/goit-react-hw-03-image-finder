@@ -9,6 +9,7 @@ import imageErrorView from '../../images/error.jpg';
 import ImageGalleryItem from '../ImageGalleryItem';
 import Button from '../Button';
 import Loader from '../Loader';
+import Modal from '../Modal';
 
 class ImageGallery extends Component {
   state = {
@@ -17,6 +18,9 @@ class ImageGallery extends Component {
     status: 'idle',
     page: 1,
     totalPage: 0,
+    showModal: true,
+    // showModal: false,
+    modalData: { largeImageURL: '', tags: '' },
   };
 
   async componentDidUpdate(prevProps, prevState) {
@@ -64,8 +68,19 @@ class ImageGallery extends Component {
     this.setState(prevState => ({ page: prevState.page + 1 }));
   };
 
+  setModalData = modalData => {
+    this.setState({ modalData, showModal: true });
+  };
+
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  };
+
   render() {
-    const { images, status, page, totalPage } = this.state;
+    const { images, status, page, totalPage, showModal, modalData } =
+      this.state;
 
     if (status === 'idle') {
       return <p>Let's try to find something!</p>;
@@ -101,13 +116,26 @@ class ImageGallery extends Component {
       return (
         <>
           <ul>
-            {images.map(({ id, webformatURL, tags }) => {
+            {images.map(({ id, webformatURL, tags, largeImageURL }) => {
               return (
-                <ImageGalleryItem key={id} imageURL={webformatURL} alt={tags} />
+                <ImageGalleryItem
+                  key={id}
+                  imageURL={webformatURL}
+                  tags={tags}
+                  largeImageURL={largeImageURL}
+                  onImageClick={this.setModalData}
+                />
               );
             })}
           </ul>
           {page < totalPage && <Button onClick={this.handleLoadMoreClick} />}
+          {showModal && (
+            <Modal modalData={modalData} onClose={this.toggleModal}>
+              <button type="button" onClick={this.toggleModal}>
+                Close modal
+              </button>
+            </Modal>
+          )}
         </>
       );
     }

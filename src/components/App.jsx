@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container } from './App.styled';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Searchbar from './Searchbar/';
 import ImageGallery from './ImageGallery';
@@ -11,6 +11,12 @@ class App extends Component {
   };
 
   handleFormSubmit = imageName => {
+    if (imageName === this.state.imageName) {
+      toast.error(
+        'You have already searched for images with this keyword. Please try something else.'
+      );
+      return;
+    }
     this.setState({ imageName });
   };
 
