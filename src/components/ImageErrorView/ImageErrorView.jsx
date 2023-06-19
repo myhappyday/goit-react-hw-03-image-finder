@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 
-const ImageErrorView = ({ imageURL, alt, message }) => {
+const ImageErrorView = ({ imageURL, alt, width, message }) => {
   return (
     <div role="alert">
-      <img src={imageURL} width="300" alt={alt} />
+      <img src={imageURL} width={width} alt={alt} />
       <p>{message}</p>
     </div>
   );

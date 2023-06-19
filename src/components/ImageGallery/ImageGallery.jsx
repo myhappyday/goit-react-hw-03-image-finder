@@ -13,7 +13,7 @@ import Loader from '../Loader';
 class ImageGallery extends Component {
   state = {
     images: [],
-    error: false,
+    error: null,
     status: 'idle',
     page: 1,
     totalPage: 0,
@@ -30,21 +30,16 @@ class ImageGallery extends Component {
       this.setState({
         images: [],
         page: 1,
+        totalPage: 0,
         status: 'pending',
       });
     }
     if (prevName !== nextName || prevState.page !== page) {
       try {
-        // this.setState({
-        //   images: [],
-        //   // page: 1,
-        //   status: 'pending',
-        // });
-
         const response = await galleryAPI.fetchImages(nextName, page);
         const { total, hits, totalHits } = response;
         if (total === 0) {
-          this.setState({ error: true, images: [], status: 'resolved' });
+          this.setState({ images: [], status: 'resolved' });
           toast.error(
             'Sorry, there are no images matching your search query. Please try again.'
           );
@@ -52,34 +47,16 @@ class ImageGallery extends Component {
         }
         this.setState({
           images: page === 1 ? [...hits] : [...images, ...hits],
-          totalPage: Math.floor(totalHits / 12),
+          totalPage: Math.ceil(totalHits / 12),
           status: 'resolved',
         });
       } catch (error) {
-        this.setState({ error: true, status: 'rejected' });
+        this.setState({ error, status: 'rejected' });
         toast.error(
           'Oops! Something went wrong. Please, reload the page and try again.'
         );
         // console.log(error.message);
       }
-
-      //     if (prevName !== nextName || prevState.page !== page) {
-      //       galleryAPI
-      //         .fetchImages(nextName, page)
-      //         .then(images => {
-      //           this.setState({
-      //             images:
-      //               page === 1
-      //                 ? images.hits
-      //                 : [...prevState.images, ...images.hits],
-      //             totalPages: Math.floor(images.totalHits / 12),
-      //             status: 'resolved',
-      //           });
-      //         })
-      //         .catch(error => {
-      //           this.setState({ error, status: 'rejected' });
-      //         });
-      //     }
     }
   }
 
@@ -102,6 +79,7 @@ class ImageGallery extends Component {
         <ImageErrorView
           imageURL={imageError}
           alt={'Something went wrong'}
+          width="600"
           message={
             'Oops! Something went wrong. Please, reload the page and try again.'
           }
@@ -115,6 +93,7 @@ class ImageGallery extends Component {
           <ImageErrorView
             imageURL={imageErrorView}
             alt={'Crying meme'}
+            width="340"
             message={`Sorry, we can't find images of ${this.props.imageName}.`}
           />
         );
