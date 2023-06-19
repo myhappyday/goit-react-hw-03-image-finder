@@ -19,7 +19,7 @@ class App extends Component {
       <Container>
         <Searchbar onSubmit={this.handleFormSubmit} />
         <ImageGallery imageName={this.state.imageName} />
-        <ToastContainer autoClose={3000} />
+        <ToastContainer position="top-right" autoClose={3000} />
       </Container>
     );
   }

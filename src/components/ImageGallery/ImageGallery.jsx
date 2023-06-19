@@ -7,6 +7,7 @@ import ImageErrorView from '../ImageErrorView';
 import imageError from '../../images/error-oops.jpg';
 import imageErrorView from '../../images/error.jpg';
 import ImageGalleryItem from '../ImageGalleryItem';
+import Button from '../Button';
 import Loader from '../Loader';
 
 class ImageGallery extends Component {
@@ -14,33 +15,44 @@ class ImageGallery extends Component {
     images: [],
     error: false,
     status: 'idle',
+    page: 1,
+    totalPage: 0,
   };
 
   async componentDidUpdate(prevProps, prevState) {
-    // const { page } = this.state;
+    const { images, page } = this.state;
     const prevName = prevProps.imageName;
     const nextName = this.props.imageName;
     // console.log('prevName:', prevName)
     // console.log('nextName:', nextName)
-    if (prevName !== nextName) {
-      try {
-        this.setState({
-          images: [],
-          // page: 1,
-          status: 'pending',
-        });
 
-        const response = await galleryAPI.fetchImages(nextName);
-        const { total, hits } = response;
+    if (prevName !== nextName) {
+      this.setState({
+        images: [],
+        page: 1,
+        status: 'pending',
+      });
+    }
+    if (prevName !== nextName || prevState.page !== page) {
+      try {
+        // this.setState({
+        //   images: [],
+        //   // page: 1,
+        //   status: 'pending',
+        // });
+
+        const response = await galleryAPI.fetchImages(nextName, page);
+        const { total, hits, totalHits } = response;
         if (total === 0) {
-          this.setState({ error: true, images: null, status: 'rejected' });
+          this.setState({ error: true, images: [], status: 'resolved' });
           toast.error(
             'Sorry, there are no images matching your search query. Please try again.'
           );
           return;
         }
         this.setState({
-          images: [...hits],
+          images: page === 1 ? [...hits] : [...images, ...hits],
+          totalPage: Math.floor(totalHits / 12),
           status: 'resolved',
         });
       } catch (error) {
@@ -50,8 +62,6 @@ class ImageGallery extends Component {
         );
         // console.log(error.message);
       }
-
-      // .catch(error => this.setState({ error, status: 'rejected' }));
 
       //     if (prevName !== nextName || prevState.page !== page) {
       //       galleryAPI
@@ -72,8 +82,13 @@ class ImageGallery extends Component {
       //     }
     }
   }
+
+  handleLoadMoreClick = () => {
+    this.setState(prevState => ({ page: prevState.page + 1 }));
+  };
+
   render() {
-    const { images, status } = this.state;
+    const { images, status, page, totalPage } = this.state;
 
     if (status === 'idle') {
       return <p>Let's try to find something!</p>;
@@ -83,15 +98,6 @@ class ImageGallery extends Component {
     }
 
     if (status === 'rejected') {
-      if (!images) {
-        return (
-          <ImageErrorView
-            imageURL={imageErrorView}
-            alt={'Crying meme'}
-            message={`Sorry, we can't find images of ${this.props.imageName}.`}
-          />
-        );
-      }
       return (
         <ImageErrorView
           imageURL={imageError}
@@ -104,14 +110,26 @@ class ImageGallery extends Component {
     }
 
     if (status === 'resolved') {
+      if (images.length === 0) {
+        return (
+          <ImageErrorView
+            imageURL={imageErrorView}
+            alt={'Crying meme'}
+            message={`Sorry, we can't find images of ${this.props.imageName}.`}
+          />
+        );
+      }
       return (
-        <ul>
-          {images.map(({ id, webformatURL, tags }) => {
-            return (
-              <ImageGalleryItem key={id} imageURL={webformatURL} alt={tags} />
-            );
-          })}
-        </ul>
+        <>
+          <ul>
+            {images.map(({ id, webformatURL, tags }) => {
+              return (
+                <ImageGalleryItem key={id} imageURL={webformatURL} alt={tags} />
+              );
+            })}
+          </ul>
+          {page < totalPage && <Button onClick={this.handleLoadMoreClick} />}
+        </>
       );
     }
   }
