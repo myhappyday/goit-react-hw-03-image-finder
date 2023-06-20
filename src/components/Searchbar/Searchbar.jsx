@@ -2,7 +2,7 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ImSearch } from 'react-icons/im';
 import { toast } from 'react-toastify';
-
+import { Header, Form, Input, Button } from './Searchbar.styled';
 class Searchbar extends Component {
   state = {
     imageName: '',
@@ -28,10 +28,9 @@ class Searchbar extends Component {
 
   render() {
     return (
-      <header className="searchbar">
-        <form className="form" onSubmit={this.handleSubmit}>
-          <input
-            className="input"
+      <Header>
+        <Form onSubmit={this.handleSubmit}>
+          <Input
             type="text"
             name="search"
             autoComplete="off"
@@ -40,12 +39,11 @@ class Searchbar extends Component {
             value={this.state.imageName}
             onChange={this.handleChange}
           />
-          <button type="submit" className="button">
-            {/* <span className="button-label">Search</span> */}
-            <ImSearch size={20} />
-          </button>
-        </form>
-      </header>
+          <Button type="submit">
+            <ImSearch size={24} />
+          </Button>
+        </Form>
+      </Header>
     );
   }
 }

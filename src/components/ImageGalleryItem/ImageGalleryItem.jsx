@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Item, Image } from './ImageGalleryItem.styled';
 
 const ImageGalleryItem = ({ imageURL, tags }) => {
   return (
-    <li>
-      <img src={imageURL} alt={tags} loading="lazy" />
-    </li>
+    <Item>
+      <Image src={imageURL} alt={tags} loading="lazy" />
+    </Item>
   );
 };
 

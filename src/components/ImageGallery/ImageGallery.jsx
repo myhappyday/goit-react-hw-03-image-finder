@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
-
+import { ImageGalleryList, Text } from './ImageGallery.styled';
 import galleryAPI from '../../services/galleryAPI';
 import ImageErrorView from '../ImageErrorView';
 import imageError from '../../images/error-oops.jpg';
@@ -18,8 +18,8 @@ class ImageGallery extends Component {
     status: 'idle',
     page: 1,
     totalPage: 0,
-    showModal: true,
-    // showModal: false,
+    // showModal: true,
+    showModal: false,
     modalData: { largeImageURL: '', tags: '' },
   };
 
@@ -83,7 +83,7 @@ class ImageGallery extends Component {
       this.state;
 
     if (status === 'idle') {
-      return <p>Let's try to find something!</p>;
+      return <Text>Try to find something!</Text>;
     }
     if (status === 'pending') {
       return <Loader />;
@@ -115,7 +115,7 @@ class ImageGallery extends Component {
       }
       return (
         <>
-          <ul>
+          <ImageGalleryList>
             {images.map(({ id, webformatURL, tags, largeImageURL }) => {
               return (
                 <ImageGalleryItem
@@ -127,7 +127,7 @@ class ImageGallery extends Component {
                 />
               );
             })}
-          </ul>
+          </ImageGalleryList>
           {page < totalPage && <Button onClick={this.handleLoadMoreClick} />}
           {showModal && (
             <Modal modalData={modalData} onClose={this.toggleModal}>

@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
+import {
+  Overlay,
+  ModalWindow,
+  ModalImage,
+  ModalDescription,
+} from './Modal.styled';
 
 const modalRoot = document.querySelector('#modal-root');
 
@@ -31,13 +37,13 @@ class Modal extends Component {
     const { largeImageURL, tags } = this.props.modalData;
     // Виносимо модалку і рендеримо в портал для модалок в #modal-root
     return createPortal(
-      <div className="Modal__backdrop" onClick={this.handleBackdropClick}>
-        <div className="Modal__content">
+      <Overlay onClick={this.handleBackdropClick}>
+        <ModalWindow>
           {/* {this.props.children} */}
-          <img src={largeImageURL} alt={tags} />
-          <p>{tags}</p>
-        </div>
-      </div>,
+          <ModalImage src={largeImageURL} alt={tags} />
+          <ModalDescription>{tags}</ModalDescription>
+        </ModalWindow>
+      </Overlay>,
       modalRoot
     );
   }
