@@ -2,9 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Item, Image } from './ImageGalleryItem.styled';
 
-const ImageGalleryItem = ({ imageURL, tags }) => {
+const ImageGalleryItem = ({ imageURL, tags, largeImageURL, onImageClick }) => {
   return (
-    <Item>
+    <Item
+      onClick={event => {
+        event.preventDefault();
+        onImageClick({ largeImageURL, tags });
+      }}
+    >
       <Image src={imageURL} alt={tags} loading="lazy" />
     </Item>
   );
@@ -13,6 +18,8 @@ const ImageGalleryItem = ({ imageURL, tags }) => {
 ImageGalleryItem.propTypes = {
   imageURL: PropTypes.string.isRequired,
   tags: PropTypes.string,
+  largeImageURL: PropTypes.string.isRequired,
+  onImageClick: PropTypes.func.isRequired,
 };
 
 export default ImageGalleryItem;

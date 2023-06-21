@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
+import { ErrorWrapper, Image, Message } from './ImageErrorView.styled';
 
 const ImageErrorView = ({ imageURL, alt, width, message }) => {
   return (
-    <div role="alert">
-      <img src={imageURL} width={width} alt={alt} />
-      <p>{message}</p>
-    </div>
+    <ErrorWrapper role="alert">
+      <Image src={imageURL} width={width} alt={alt} />
+      <Message>{message}</Message>
+    </ErrorWrapper>
   );
 };
 
