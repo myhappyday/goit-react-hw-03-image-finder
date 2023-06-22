@@ -18,8 +18,14 @@ export const ModalWindow = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 65vw;
+  height: auto;
+  box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.5);
+  border-radius: 3px;
+  overflow: hidden;
+
   max-width: calc(100vw - 48px);
-  max-height: calc(100vh - 24px);
+  max-height: calc(100vh - 48px);
 `;
 
 export const ModalImage = styled.img`
