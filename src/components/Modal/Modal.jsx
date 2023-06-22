@@ -38,8 +38,7 @@ class Modal extends Component {
     // Виносимо модалку і рендеримо в портал для модалок в #modal-root
     return createPortal(
       <Overlay onClick={this.handleBackdropClick}>
-        <ModalWindow>
-          {/* {this.props.children} */}
+        <ModalWindow>         
           <ModalImage src={largeImageURL} alt={tags} />
           <ModalDescription>{tags}</ModalDescription>
         </ModalWindow>
@@ -50,7 +49,11 @@ class Modal extends Component {
 }
 
 Modal.propTypes = {
-  onClose: PropTypes.func,
+  modalData: PropTypes.shape({
+    largeImageURL: PropTypes.string.isRequired,
+    tags: PropTypes.string,
+  }),
+  onClose: PropTypes.func.isRequired,
 };
 
 export default Modal;

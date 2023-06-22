@@ -18,7 +18,6 @@ class ImageGallery extends Component {
     status: 'idle',
     page: 1,
     totalPage: 0,
-    // showModal: true,
     showModal: false,
     modalData: { largeImageURL: '', tags: '' },
   };
@@ -27,8 +26,6 @@ class ImageGallery extends Component {
     const { images, page } = this.state;
     const prevName = prevProps.imageName;
     const nextName = this.props.imageName;
-    // console.log('prevName:', prevName)
-    // console.log('nextName:', nextName)
 
     if (prevName !== nextName) {
       this.setState({
@@ -44,7 +41,7 @@ class ImageGallery extends Component {
         const { total, hits, totalHits } = response;
         if (total === 0) {
           this.setState({ images: [], status: 'resolved' });
-          toast.error(
+          toast.warn(
             'Sorry, there are no images matching your search query. Please try again.'
           );
           return;
@@ -56,7 +53,7 @@ class ImageGallery extends Component {
         });
       } catch (error) {
         this.setState({ error, status: 'rejected' });
-        toast.error(
+        toast.warn(
           'Oops! Something went wrong. Please, reload the page and try again.'
         );
         // console.log(error.message);
@@ -130,11 +127,7 @@ class ImageGallery extends Component {
           </ImageGalleryList>
           {page < totalPage && <Button onClick={this.handleLoadMoreClick} />}
           {showModal && (
-            <Modal modalData={modalData} onClose={this.toggleModal}>
-              <button type="button" onClick={this.toggleModal}>
-                Close modal
-              </button>
-            </Modal>
+            <Modal modalData={modalData} onClose={this.toggleModal} />
           )}
         </>
       );

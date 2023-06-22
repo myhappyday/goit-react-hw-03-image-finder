@@ -16,7 +16,7 @@ class Searchbar extends Component {
     event.preventDefault();
 
     if (this.state.imageName.trim() === '') {
-      toast.error(
+      toast.warn(
         'The search field is empty. Please enter your data for query.'
       );
       return;
