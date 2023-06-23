@@ -38,7 +38,7 @@ class Modal extends Component {
     // Виносимо модалку і рендеримо в портал для модалок в #modal-root
     return createPortal(
       <Overlay onClick={this.handleBackdropClick}>
-        <ModalWindow>         
+        <ModalWindow>
           <ModalImage src={largeImageURL} alt={tags} />
           <ModalDescription>{tags}</ModalDescription>
         </ModalWindow>

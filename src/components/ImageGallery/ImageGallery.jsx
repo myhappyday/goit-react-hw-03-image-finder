@@ -53,7 +53,7 @@ class ImageGallery extends Component {
         });
       } catch (error) {
         this.setState({ error, status: 'rejected' });
-        toast.warn(
+        toast.error(
           'Oops! Something went wrong. Please, reload the page and try again.'
         );
         // console.log(error.message);
