@@ -35,6 +35,7 @@ class ImageGallery extends Component {
         status: 'pending',
       });
     }
+
     if (prevName !== nextName || prevState.page !== page) {
       try {
         const response = await galleryAPI.fetchImages(nextName, page);
@@ -51,12 +52,15 @@ class ImageGallery extends Component {
           totalPage: Math.ceil(totalHits / 12),
           status: 'resolved',
         });
+        console.log('prevName-1:', prevName);
+        console.log('nextName-1:', nextName);
+        console.log('prevState.page-1:', prevState.page);
+        console.log('this.state.page-1:', page);
       } catch (error) {
         this.setState({ error, status: 'rejected' });
         toast.error(
           'Oops! Something went wrong. Please, reload the page and try again.'
         );
-        // console.log(error.message);
       }
     }
   }
